@@ -6,35 +6,32 @@
         career-finder
       </h1>
       <h2 class="subtitle">
-        Zenn is good service!!
+        {{ subTitle }}
       </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+      <button @click="getCompanies">
+        企業名取得
+      </button>
+            <ul v-for=" company in companies" :key="company.id">
+        <li style="text-align: left;">{{ company.name }}</li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
 export default {
-  components: {
-    Logo
-  }
+  data() {
+    return {
+      subTitle: 'CareerFinder is good service!!',
+      companies: []
+    }
+  },
+  methods: {
+    async getCompanies() {
+      const response = await this.$axios.$get('http://localhost:5000/api/v1/companies')
+      this.companies = JSON.parse(response.companies)
+    }
+  },
 }
 </script>
 
